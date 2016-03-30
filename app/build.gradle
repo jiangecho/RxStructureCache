@@ -35,4 +35,5 @@ dependencies {
     compile 'com.roughike:bottom-bar:1.2.4'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'org.zeroturnaround:zt-zip:1.9'
 }

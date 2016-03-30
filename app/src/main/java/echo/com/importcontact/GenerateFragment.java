@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -24,10 +24,10 @@ public class GenerateFragment extends Fragment {
 
     @Bind(R.id.currentCityTextView)
     TextView currentCityTextView;
-    @Bind(R.id.numberEditText)
-    EditText numberEditText;
+    @Bind(R.id.hotCityRadioGroup)
+    RadioGroup hotCityRadioGroup;
 
-    String currentCity;
+    String currentCity = "北京";
 
     public GenerateFragment() {
         // Required empty public constructor
@@ -54,6 +54,29 @@ public class GenerateFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         ButterKnife.bind(this, view);
+
+        hotCityRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio0:
+                        currentCity = "北京";
+                        break;
+                    case R.id.radio1:
+                        currentCity = "上海";
+                        break;
+                    case R.id.radio2:
+                        currentCity = "广州";
+                        break;
+                    default:
+                        currentCity = "杭州";
+                        break;
+                }
+
+                currentCityTextView.setText(getString(R.string.current_city, currentCity));
+            }
+        });
+
         return view;
     }
 
@@ -62,7 +85,6 @@ public class GenerateFragment extends Fragment {
         Intent intent = new Intent(getActivity(), CityListActivity.class);
         startActivityForResult(intent, MainActivity.REQUEST_CODE_CITY);
     }
-
 
     @Override
     public void onAttach(Context context) {

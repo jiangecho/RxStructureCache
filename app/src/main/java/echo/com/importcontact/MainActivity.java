@@ -1,5 +1,6 @@
 package echo.com.importcontact;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
+
+import org.zeroturnaround.zip.ZipUtil;
+
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private TabLayout tabLayout;
+
+    private boolean unpacked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +91,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        unpacked = getSharedPreferences("config", MODE_PRIVATE).getBoolean("unpacked", false);
+        if (!unpacked) {
+            unpackCityList();
+        }
+    }
+
+    private void unpackCityList() {
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                boolean result;
+                try {
+                    File dir = new File(getFilesDir() + File.separator + "citylist");
+                    if (dir.exists()) {
+                        deleteDir(dir);
+                    }
+                    ZipUtil.unpack(getResources().openRawResource(R.raw.citylist), getFilesDir());
+                    result = true;
+                } catch (Throwable e) {
+                    result = false;
+                }
+                return result;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                super.onPostExecute(aBoolean);
+                if (aBoolean) {
+                    getSharedPreferences("config", MODE_PRIVATE).edit().putBoolean("unpacked", true).commit();
+                }
+            }
+        }.execute();
     }
 
     /**
@@ -132,5 +171,15 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    public static void deleteDir(File file) {
+        File[] contents = file.listFiles();
+        if (contents != null) {
+            for (File f : contents) {
+                deleteDir(f);
+            }
+        }
+        file.delete();
     }
 }
