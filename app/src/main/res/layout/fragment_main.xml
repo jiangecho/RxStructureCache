@@ -1,0 +1,140 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="echo.com.importcontact.MainActivity$PlaceholderFragment">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/city_radio_un_checked_bg"
+        android:gravity="center"
+        android:hint="搜索其他城市"
+        android:onClick="search"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" />
+
+    <TextView
+        android:id="@+id/currentCityTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:text="当前已选城市:北京"
+        android:textColor="@color/primary_color" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#999999" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:text="热门城市" />
+
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onRadioGroupClick"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/city_radio_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="北京" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/city_radio_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="上海" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/city_radio_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="广州" />
+
+        <RadioButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/city_radio_bg_selector"
+            android:button="@null"
+            android:gravity="center"
+            android:padding="6dp"
+            android:text="杭州" />
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="10dp"
+        android:background="#999999"
+        android:visibility="gone" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:hint="请输入生成数量(不要超过1000)"
+        android:inputType="numberDecimal" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/city_radio_checked_bg"
+        android:gravity="center"
+        android:onClick="generate"
+        android:padding="15dp"
+        android:text="开始生成"
+        android:textColor="@color/white" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/city_radio_checked_bg"
+        android:gravity="center"
+        android:onClick="clear"
+        android:padding="15dp"
+        android:text="删除之前的记录"
+        android:textColor="@color/white" />
+
+</LinearLayout>
