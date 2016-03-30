@@ -69,7 +69,7 @@ public class CityListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent();
                 intent.putExtra("city", cities[position]);
-                setResult(MainActivity.REQUEST_CODE_CITY);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });

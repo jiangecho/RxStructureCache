@@ -16,12 +16,12 @@
 
 
         <TextView
+            android:id="@+id/cityListTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/city_radio_un_checked_bg"
             android:gravity="center"
             android:hint="搜索其他城市"
-            android:onClick="search"
             android:paddingBottom="10dp"
             android:paddingTop="10dp" />
 
@@ -37,7 +37,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="#999999" />
+            android:background="#999999"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -48,9 +49,9 @@
 
 
         <RadioGroup
+            android:id="@+id/hotCityRadioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="onRadioGroupClick"
             android:orientation="horizontal">
 
             <RadioButton
@@ -108,6 +109,7 @@
             android:visibility="gone" />
 
         <EditText
+            android:id="@+id/numberEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -117,6 +119,7 @@
             android:inputType="numberDecimal" />
 
         <Button
+            android:id="@+id/generateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -124,12 +127,12 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/city_radio_checked_bg"
             android:gravity="center"
-            android:onClick="generate"
             android:padding="15dp"
             android:text="开始生成"
             android:textColor="@color/white" />
 
         <Button
+            android:id="@+id/clearButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -137,7 +140,6 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/city_radio_checked_bg"
             android:gravity="center"
-            android:onClick="clear"
             android:padding="15dp"
             android:text="删除之前的记录"
             android:textColor="@color/white" />

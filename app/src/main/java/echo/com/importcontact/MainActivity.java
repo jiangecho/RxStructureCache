@@ -1,6 +1,5 @@
 package echo.com.importcontact;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,7 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -86,22 +84,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    public void search(View view) {
-        Intent intent = new Intent(this, CityListActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_CITY);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE_CITY && resultCode == RESULT_OK) {
-            currentCity = data.getStringExtra("city");
-            currentCityTextView.setText(getString(R.string.current_city, currentCity));
-
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
     }
 
     /**
