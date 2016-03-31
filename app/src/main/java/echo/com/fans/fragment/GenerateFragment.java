@@ -20,9 +20,9 @@ import java.util.Random;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import echo.com.fans.R;
 import echo.com.fans.activity.CityListActivity;
 import echo.com.fans.activity.MainActivity;
-import echo.com.fans.R;
 import echo.com.fans.utils.AES256Utils;
 import echo.com.fans.utils.ContactUtil;
 
@@ -143,7 +143,7 @@ public class GenerateFragment extends Fragment {
             number = tmps[random.nextInt(tmps.length)];
             number = number + String.format("%04d", random.nextInt(9999));
             name = String.format(currentCity + "_%04d", i);
-            ContactUtil.insertPhoneContact(name, number, getActivity());
+            ContactUtil.insertPhoneContact(getActivity(), name, number);
         }
     }
 
