@@ -14,12 +14,17 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.echo.fans.Fans;
+import com.echo.fans.FansDao;
+
 import java.io.File;
+import java.util.List;
 import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import echo.com.fans.App;
 import echo.com.fans.R;
 import echo.com.fans.activity.CityListActivity;
 import echo.com.fans.activity.MainActivity;
@@ -42,7 +47,6 @@ public class GenerateFragment extends Fragment {
 
     String currentCity = "北京";
     private int count = 0;
-    private String tmp;
 
     public GenerateFragment() {
         // Required empty public constructor
@@ -116,6 +120,7 @@ public class GenerateFragment extends Fragment {
             Toast.makeText(getActivity(), "输入错误", Toast.LENGTH_LONG).show();
             return;
         }
+        generateNumberSync();
 
     }
 
@@ -147,7 +152,7 @@ public class GenerateFragment extends Fragment {
             name = String.format(currentCity + "_%04d", i);
             ContactUtil.insertPhoneContact(getActivity(), name, number);
 
-            tmp = number;
+            App.getInstance().getFansDao().insert(new Fans(null, name, number));
         }
         return true;
     }
@@ -172,8 +177,19 @@ public class GenerateFragment extends Fragment {
     }
 
     @OnClick(R.id.clearButton)
-    public void encrypt() {
-        ContactUtil.deleteContact(getActivity(), tmp);
+    public void clear() {
+        FansDao fansDao = App.getInstance().getFansDao();
+        List<Fans> fanses = fansDao.loadAll();
+        if (fanses == null) {
+            return;
+        }
+        boolean result = false;
+        for (Fans fans : fanses) {
+            result = ContactUtil.deleteContact(getActivity(), fans.getNumber());
+            if (result) {
+                fansDao.delete(fans);
+            }
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package echo.com.fans.utils;
 import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.content.OperationApplicationException;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
@@ -59,8 +60,32 @@ public class ContactUtil {
         return result;
     }
 
-    public static void deleteContact(Context context, String number) {
-        Uri uri = ContactsContract.RawContacts.CONTENT_URI;
-        context.getContentResolver().delete(uri, Phone.NUMBER + " = '" + number + "'", null);
+
+    public static boolean deleteContact(Context context, String phone) {
+        Uri contactUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+                Uri.encode(phone));
+        Cursor cur = context.getContentResolver().query(contactUri, null, null,
+                null, null);
+        try {
+            if (cur.moveToFirst()) {
+                do {
+                    if (cur.getString(cur.getColumnIndex(ContactsContract.PhoneLookup.NUMBER)).equalsIgnoreCase(phone)) {
+                        String lookupKey = cur.getString(cur.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY));
+                        Uri uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, lookupKey);
+                        context.getContentResolver().delete(uri, null, null);
+                        return true;
+                    }
+
+                } while (cur.moveToNext());
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+        if (cur != null) {
+            cur.close();
+        }
+        return false;
     }
+
 }

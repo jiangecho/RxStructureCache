@@ -51,7 +51,7 @@ public class ImportContactActivity extends AppCompatActivity {
             String line = bufferedReader.readLine();
             int count = 200;
             while (line != null) {
-                ContactUtil.insertPhoneContact(String.format("%04d", count), line, context);
+                ContactUtil.insertPhoneContact(context, String.format("%04d", count), line);
                 Log.e("jyj", count + "  " + line);
                 count++;
                 line = bufferedReader.readLine();
