@@ -1,4 +1,4 @@
-package echo.com.importcontact;
+package echo.com.fans;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

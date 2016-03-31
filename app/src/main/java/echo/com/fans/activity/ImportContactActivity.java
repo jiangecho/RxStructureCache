@@ -1,4 +1,4 @@
-package echo.com.importcontact.activity;
+package echo.com.fans.activity;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -14,8 +14,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import echo.com.importcontact.R;
-import echo.com.importcontact.utils.ContactUtil;
+import echo.com.fans.R;
+import echo.com.fans.utils.ContactUtil;
 
 public class ImportContactActivity extends AppCompatActivity {
 

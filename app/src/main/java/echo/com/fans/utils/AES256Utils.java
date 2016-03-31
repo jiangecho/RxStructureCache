@@ -1,4 +1,4 @@
-package echo.com.importcontact.utils;
+package echo.com.fans.utils;
 
 import android.util.Log;
 

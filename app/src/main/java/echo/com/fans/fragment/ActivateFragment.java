@@ -1,4 +1,4 @@
-package echo.com.importcontact.fragment;
+package echo.com.fans.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import echo.com.importcontact.R;
+import echo.com.fans.R;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,4 +1,4 @@
-package echo.com.importcontact.fragment;
+package echo.com.fans.fragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,11 +20,11 @@ import java.util.Random;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import echo.com.importcontact.activity.CityListActivity;
-import echo.com.importcontact.activity.MainActivity;
-import echo.com.importcontact.R;
-import echo.com.importcontact.utils.AES256Utils;
-import echo.com.importcontact.utils.ContactUtil;
+import echo.com.fans.activity.CityListActivity;
+import echo.com.fans.activity.MainActivity;
+import echo.com.fans.R;
+import echo.com.fans.utils.AES256Utils;
+import echo.com.fans.utils.ContactUtil;
 
 /**
  * A simple {@link Fragment} subclass.

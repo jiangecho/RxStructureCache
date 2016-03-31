@@ -1,4 +1,4 @@
-package echo.com.importcontact;
+package echo.com.fans;
 
 import org.junit.Test;
 

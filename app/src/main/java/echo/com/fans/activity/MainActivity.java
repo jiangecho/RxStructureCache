@@ -1,4 +1,4 @@
-package echo.com.importcontact.activity;
+package echo.com.fans.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,9 +15,9 @@ import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
 
-import echo.com.importcontact.R;
-import echo.com.importcontact.fragment.ActivateFragment;
-import echo.com.importcontact.fragment.GenerateFragment;
+import echo.com.fans.R;
+import echo.com.fans.fragment.ActivateFragment;
+import echo.com.fans.fragment.GenerateFragment;
 
 public class MainActivity extends AppCompatActivity {
 

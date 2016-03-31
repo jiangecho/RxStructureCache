@@ -1,4 +1,4 @@
-package echo.com.importcontact.utils;
+package echo.com.fans.utils;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;
