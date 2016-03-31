@@ -160,7 +160,7 @@ public class GenerateFragment extends Fragment {
     }
 
     private void generateNumberAsync() {
-        new AsyncTask<Void, Void, Boolean>() {
+        new AsyncTask<Void, Integer, Boolean>() {
             private MaterialDialog dialog;
 
             @Override
@@ -169,10 +169,20 @@ public class GenerateFragment extends Fragment {
                 dialog = new MaterialDialog.Builder(getActivity())
                         .title("正在生成")
                         .content("请稍后")
-                        .progress(true, 0)
+                        .progress(false, count)
                         .cancelable(false)
                         .build();
                 dialog.show();
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                return generateNumberSync();
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate(values);
             }
 
             @Override
@@ -184,11 +194,6 @@ public class GenerateFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), "生成失败", Toast.LENGTH_LONG).show();
                 }
-            }
-
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                return generateNumberSync();
             }
         }.execute();
     }
