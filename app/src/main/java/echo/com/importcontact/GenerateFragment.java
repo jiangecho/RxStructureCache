@@ -3,15 +3,19 @@ package echo.com.importcontact;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
+import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,6 +32,8 @@ public class GenerateFragment extends Fragment {
     TextView currentCityTextView;
     @Bind(R.id.hotCityRadioGroup)
     RadioGroup hotCityRadioGroup;
+    @Bind(R.id.numberEditText)
+    EditText numberEditText;
 
     String currentCity = "北京";
 
@@ -92,6 +98,21 @@ public class GenerateFragment extends Fragment {
 
     @OnClick(R.id.generateButton)
     public void generate() {
+
+        String tmp = numberEditText.getText().toString();
+        int count;
+        try {
+            count = Integer.parseInt(tmp);
+        } catch (Exception e) {
+            e.printStackTrace();
+            count = 0;
+        }
+
+        if (count < 1 || count > 1000) {
+            Toast.makeText(getActivity(), "输入错误", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         String cityInfo = null;
         File file = new File(getActivity().getFilesDir().getAbsolutePath() + File.separator + "city" + File.separator + currentCity + ".txte");
         try {
@@ -101,11 +122,43 @@ public class GenerateFragment extends Fragment {
         }
 
         if (cityInfo == null) {
-            // TODO toast
+            Toast.makeText(getActivity(), "加载城市错误", Toast.LENGTH_LONG).show();
+            return;
+        }
+        String[] tmps = cityInfo.split("\\s+");
+        if (tmps == null) {
+            Toast.makeText(getActivity(), "内部错误", Toast.LENGTH_LONG).show();
             return;
         }
 
-        // TODO
+        Random random = new Random();
+        String number;
+        String name;
+        for (int i = 0; i < count; i++) {
+            number = tmps[random.nextInt(tmps.length)];
+            number = number + String.format("%04d", random.nextInt(9999));
+            name = String.format(currentCity + "_%04d", i);
+            ContactUtil.insertPhoneContact(name, number, getActivity());
+        }
+    }
+
+    private void generateNumber(int count) {
+        new AsyncTask<Integer, Void, Boolean>() {
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                super.onPostExecute(aBoolean);
+            }
+
+            @Override
+            protected Boolean doInBackground(Integer... params) {
+                return null;
+            }
+        }.execute(count);
 
     }
 
