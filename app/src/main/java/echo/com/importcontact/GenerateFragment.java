@@ -93,7 +93,7 @@ public class GenerateFragment extends Fragment {
     @OnClick(R.id.generateButton)
     public void generate() {
         String cityInfo = null;
-        File file = new File(getActivity().getFilesDir().getAbsolutePath() + File.separator + "city" + File.separator + currentCity + ".txt");
+        File file = new File(getActivity().getFilesDir().getAbsolutePath() + File.separator + "city" + File.separator + currentCity + ".txte");
         try {
             cityInfo = AES256Utils.decrpt(file);
         } catch (Exception e) {
@@ -117,7 +117,7 @@ public class GenerateFragment extends Fragment {
         File dir = new File(dirPath);
         File[] files = dir.listFiles();
 
-        if (files == null){
+        if (files == null) {
             return;
         }
 
