@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.echo.fans.Fans;
 import com.echo.fans.FansDao;
 
@@ -120,7 +121,8 @@ public class GenerateFragment extends Fragment {
             Toast.makeText(getActivity(), "输入错误", Toast.LENGTH_LONG).show();
             return;
         }
-        generateNumberSync();
+
+        generateNumberAsync();
 
     }
 
@@ -159,14 +161,29 @@ public class GenerateFragment extends Fragment {
 
     private void generateNumberAsync() {
         new AsyncTask<Void, Void, Boolean>() {
+            private MaterialDialog dialog;
+
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
+                dialog = new MaterialDialog.Builder(getActivity())
+                        .title("正在生成")
+                        .content("请稍后")
+                        .progress(true, 0)
+                        .cancelable(false)
+                        .build();
+                dialog.show();
             }
 
             @Override
             protected void onPostExecute(Boolean aBoolean) {
                 super.onPostExecute(aBoolean);
+                dialog.dismiss();
+                if (aBoolean) {
+                    Toast.makeText(getActivity(), "生成成功", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "生成失败", Toast.LENGTH_LONG).show();
+                }
             }
 
             @Override
@@ -178,18 +195,50 @@ public class GenerateFragment extends Fragment {
 
     @OnClick(R.id.clearButton)
     public void clear() {
-        FansDao fansDao = App.getInstance().getFansDao();
-        List<Fans> fanses = fansDao.loadAll();
-        if (fanses == null) {
-            return;
-        }
-        boolean result = false;
-        for (Fans fans : fanses) {
-            result = ContactUtil.deleteContact(getActivity(), fans.getNumber());
-            if (result) {
-                fansDao.delete(fans);
+        deleteAsync();
+    }
+
+    private void deleteAsync() {
+        new AsyncTask<Void, Void, Boolean>() {
+            private MaterialDialog dialog;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                dialog = new MaterialDialog.Builder(getActivity())
+                        .title("正在删除")
+                        .content("请稍后")
+                        .progress(true, 0)
+                        .cancelable(false)
+                        .build();
+                dialog.show();
             }
-        }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                FansDao fansDao = App.getInstance().getFansDao();
+                List<Fans> fanses = fansDao.loadAll();
+                if (fanses == null) {
+                    return false;
+                }
+                boolean result;
+                for (Fans fans : fanses) {
+                    result = ContactUtil.deleteContact(getActivity(), fans.getNumber());
+                    if (result) {
+                        fansDao.delete(fans);
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean aBoolean) {
+                super.onPostExecute(aBoolean);
+                dialog.dismiss();
+            }
+
+        }.execute();
+
     }
 
     @Override
