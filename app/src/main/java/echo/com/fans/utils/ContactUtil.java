@@ -3,6 +3,7 @@ package echo.com.fans.utils;
 import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.content.OperationApplicationException;
+import android.net.Uri;
 import android.os.RemoteException;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
@@ -56,5 +57,10 @@ public class ContactUtil {
         }
 
         return result;
+    }
+
+    public static void deleteContact(Context context, String number) {
+        Uri uri = ContactsContract.RawContacts.CONTENT_URI;
+        context.getContentResolver().delete(uri, Phone.NUMBER + " = '" + number + "'", null);
     }
 }

@@ -42,6 +42,7 @@ public class GenerateFragment extends Fragment {
 
     String currentCity = "北京";
     private int count = 0;
+    private String tmp;
 
     public GenerateFragment() {
         // Required empty public constructor
@@ -145,6 +146,8 @@ public class GenerateFragment extends Fragment {
             number = number + String.format("%04d", random.nextInt(9999));
             name = String.format(currentCity + "_%04d", i);
             ContactUtil.insertPhoneContact(getActivity(), name, number);
+
+            tmp = number;
         }
         return true;
     }
@@ -170,25 +173,7 @@ public class GenerateFragment extends Fragment {
 
     @OnClick(R.id.clearButton)
     public void encrypt() {
-        File targetFile;
-
-        String dirPath = getActivity().getFilesDir().getAbsolutePath() + File.separator + "city";
-        File dir = new File(dirPath);
-        File[] files = dir.listFiles();
-
-        if (files == null) {
-            return;
-        }
-
-        try {
-            for (File file : files) {
-                targetFile = new File(dirPath + File.separator + file.getName() + "e");
-                AES256Utils.encrypt(file, targetFile);
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        ContactUtil.deleteContact(getActivity(), tmp);
     }
 
     @Override
