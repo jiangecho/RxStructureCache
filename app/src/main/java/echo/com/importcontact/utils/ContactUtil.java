@@ -1,4 +1,4 @@
-package echo.com.importcontact;
+package echo.com.importcontact.utils;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentProviderResult;

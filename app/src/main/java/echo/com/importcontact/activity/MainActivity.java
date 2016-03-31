@@ -1,4 +1,4 @@
-package echo.com.importcontact;
+package echo.com.importcontact.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +14,10 @@ import android.widget.TextView;
 import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
+
+import echo.com.importcontact.R;
+import echo.com.importcontact.fragment.ActivateFragment;
+import echo.com.importcontact.fragment.GenerateFragment;
 
 public class MainActivity extends AppCompatActivity {
 

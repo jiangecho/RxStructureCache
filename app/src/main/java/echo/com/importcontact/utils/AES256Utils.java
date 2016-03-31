@@ -1,4 +1,4 @@
-package echo.com.importcontact;
+package echo.com.importcontact.utils;
 
 import android.util.Log;
 

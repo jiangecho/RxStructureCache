@@ -1,4 +1,4 @@
-package echo.com.importcontact;
+package echo.com.importcontact.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,7 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 import java.util.Arrays;
 import java.util.Comparator;
 
+import echo.com.importcontact.R;
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
