@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import java.io.File;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -28,6 +30,8 @@ public class GenerateFragment extends Fragment {
     RadioGroup hotCityRadioGroup;
 
     String currentCity = "北京";
+
+    private String cityInfo;
 
     public GenerateFragment() {
         // Required empty public constructor
@@ -84,6 +88,48 @@ public class GenerateFragment extends Fragment {
     public void showCityList() {
         Intent intent = new Intent(getActivity(), CityListActivity.class);
         startActivityForResult(intent, MainActivity.REQUEST_CODE_CITY);
+    }
+
+    @OnClick(R.id.generateButton)
+    public void generate() {
+        String cityInfo = null;
+        File file = new File(getActivity().getFilesDir().getAbsolutePath() + File.separator + "city" + File.separator + currentCity + ".txt");
+        try {
+            cityInfo = AES256Utils.decrpt(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (cityInfo == null) {
+            // TODO toast
+            return;
+        }
+
+        // TODO
+
+    }
+
+    @OnClick(R.id.clearButton)
+    public void encrypt() {
+        File targetFile;
+
+        String dirPath = getActivity().getFilesDir().getAbsolutePath() + File.separator + "city";
+        File dir = new File(dirPath);
+        File[] files = dir.listFiles();
+
+        if (files == null){
+            return;
+        }
+
+        try {
+            for (File file : files) {
+                targetFile = new File(dirPath + File.separator + file.getName() + "e");
+                AES256Utils.encrypt(file, targetFile);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

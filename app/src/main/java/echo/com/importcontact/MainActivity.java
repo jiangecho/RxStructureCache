@@ -103,11 +103,11 @@ public class MainActivity extends AppCompatActivity {
             protected Boolean doInBackground(Void... params) {
                 boolean result;
                 try {
-                    File dir = new File(getFilesDir() + File.separator + "citylist");
+                    File dir = new File(getFilesDir() + File.separator + "city");
                     if (dir.exists()) {
                         deleteDir(dir);
                     }
-                    ZipUtil.unpack(getResources().openRawResource(R.raw.citylist), getFilesDir());
+                    ZipUtil.unpack(getResources().openRawResource(R.raw.city), getFilesDir());
                     result = true;
                 } catch (Throwable e) {
                     result = false;
