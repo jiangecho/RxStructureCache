@@ -41,8 +41,7 @@ public class GenerateFragment extends Fragment {
     EditText numberEditText;
 
     String currentCity = "北京";
-
-    private String cityInfo;
+    private int count = 0;
 
     public GenerateFragment() {
         // Required empty public constructor
@@ -105,7 +104,6 @@ public class GenerateFragment extends Fragment {
     public void generate() {
 
         String tmp = numberEditText.getText().toString();
-        int count;
         try {
             count = Integer.parseInt(tmp);
         } catch (Exception e) {
@@ -118,6 +116,9 @@ public class GenerateFragment extends Fragment {
             return;
         }
 
+    }
+
+    private boolean generateNumberSync() {
         String cityInfo = null;
         File file = new File(getActivity().getFilesDir().getAbsolutePath() + File.separator + "city" + File.separator + currentCity + ".txte");
         try {
@@ -128,27 +129,28 @@ public class GenerateFragment extends Fragment {
 
         if (cityInfo == null) {
             Toast.makeText(getActivity(), "加载城市错误", Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
-        String[] tmps = cityInfo.split("\\s+");
-        if (tmps == null) {
+        String[] baseNumbers = cityInfo.split("\\s+");
+        if (baseNumbers == null) {
             Toast.makeText(getActivity(), "内部错误", Toast.LENGTH_LONG).show();
-            return;
+            return false;
         }
 
         Random random = new Random();
         String number;
         String name;
         for (int i = 0; i < count; i++) {
-            number = tmps[random.nextInt(tmps.length)];
+            number = baseNumbers[random.nextInt(baseNumbers.length)];
             number = number + String.format("%04d", random.nextInt(9999));
             name = String.format(currentCity + "_%04d", i);
             ContactUtil.insertPhoneContact(getActivity(), name, number);
         }
+        return true;
     }
 
-    private void generateNumber(int count) {
-        new AsyncTask<Integer, Void, Boolean>() {
+    private void generateNumberAsync() {
+        new AsyncTask<Void, Void, Boolean>() {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
@@ -160,11 +162,10 @@ public class GenerateFragment extends Fragment {
             }
 
             @Override
-            protected Boolean doInBackground(Integer... params) {
-                return null;
+            protected Boolean doInBackground(Void... params) {
+                return generateNumberSync();
             }
-        }.execute(count);
-
+        }.execute();
     }
 
     @OnClick(R.id.clearButton)
