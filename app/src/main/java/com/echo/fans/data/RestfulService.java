@@ -1,6 +1,6 @@
-package com.echo.data;
+package com.echo.fans.data;
 
-import com.echo.Token;
+import com.echo.fans.data.model.Token;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

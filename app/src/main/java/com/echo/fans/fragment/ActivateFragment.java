@@ -1,4 +1,4 @@
-package echo.com.fans.fragment;
+package com.echo.fans.fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -11,15 +11,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.echo.Token;
-import com.echo.data.DataManager;
+import com.echo.fans.data.model.Token;
+import com.echo.fans.data.DataManager;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import echo.com.fans.App;
+import com.echo.fans.App;
 import echo.com.fans.R;
-import echo.com.fans.utils.ClipUtil;
+import com.echo.fans.utils.ClipUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

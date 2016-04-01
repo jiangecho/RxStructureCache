@@ -1,6 +1,6 @@
-package com.echo.data;
+package com.echo.fans.data;
 
-import com.echo.Token;
+import com.echo.fans.data.model.Token;
 
 import retrofit2.Call;
 import retrofit2.Callback;

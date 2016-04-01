@@ -1,4 +1,4 @@
-package echo.com.fans.activity;
+package com.echo.fans.activity;
 
 import android.content.Context;
 import android.content.Intent;

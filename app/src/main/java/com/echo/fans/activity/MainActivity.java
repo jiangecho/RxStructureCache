@@ -1,4 +1,4 @@
-package echo.com.fans.activity;
+package com.echo.fans.activity;
 
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -14,17 +14,17 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.echo.Token;
-import com.echo.data.DataManager;
+import com.echo.fans.data.model.Token;
+import com.echo.fans.data.DataManager;
 
 import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
 
-import echo.com.fans.App;
+import com.echo.fans.App;
 import echo.com.fans.R;
-import echo.com.fans.fragment.ActivateFragment;
-import echo.com.fans.fragment.GenerateFragment;
+import com.echo.fans.fragment.ActivateFragment;
+import com.echo.fans.fragment.GenerateFragment;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

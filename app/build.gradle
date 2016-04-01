@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "echo.com.importcontact"
+        applicationId "com.echo.fans"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1

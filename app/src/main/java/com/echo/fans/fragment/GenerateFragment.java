@@ -1,4 +1,4 @@
-package echo.com.fans.fragment;
+package com.echo.fans.fragment;
 
 import android.Manifest;
 import android.app.Activity;
@@ -17,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.echo.fans.Fans;
-import com.echo.fans.FansDao;
+import com.echo.fans.dao.Fans;
+import com.echo.fans.dao.FansDao;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -30,12 +30,12 @@ import java.util.Random;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import echo.com.fans.App;
+import com.echo.fans.App;
 import echo.com.fans.R;
-import echo.com.fans.activity.CityListActivity;
-import echo.com.fans.activity.MainActivity;
-import echo.com.fans.utils.AES256Utils;
-import echo.com.fans.utils.ContactUtil;
+import com.echo.fans.activity.CityListActivity;
+import com.echo.fans.activity.MainActivity;
+import com.echo.fans.utils.AES256Utils;
+import com.echo.fans.utils.ContactUtil;
 
 /**
  * A simple {@link Fragment} subclass.

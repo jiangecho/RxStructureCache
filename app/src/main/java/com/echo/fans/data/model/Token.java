@@ -1,4 +1,4 @@
-package com.echo;
+package com.echo.fans.data.model;
 
 import java.util.List;
 

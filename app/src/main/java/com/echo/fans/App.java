@@ -1,9 +1,9 @@
-package echo.com.fans;
+package com.echo.fans;
 
 import android.app.Application;
 
-import com.echo.fans.DaoMaster;
-import com.echo.fans.FansDao;
+import com.echo.fans.dao.DaoMaster;
+import com.echo.fans.dao.FansDao;
 
 /**
  * Created by jiangecho on 16/3/31.

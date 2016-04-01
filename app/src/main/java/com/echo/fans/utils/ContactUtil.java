@@ -1,4 +1,4 @@
-package echo.com.fans.utils;
+package com.echo.fans.utils;
 
 import android.content.ContentProviderOperation;
 import android.content.Context;
