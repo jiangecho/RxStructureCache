@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -116,7 +117,9 @@ public class GenerateFragment extends Fragment {
 
         String tmp = numberEditText.getText().toString();
         try {
-            count = Integer.parseInt(tmp);
+            if (!TextUtils.isEmpty(tmp)) {
+                count = Integer.parseInt(tmp);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             count = 0;
@@ -174,7 +177,7 @@ public class GenerateFragment extends Fragment {
                 dialog = new MaterialDialog.Builder(getActivity())
                         .title("正在生成")
                         .content("请稍后")
-                        .progress(false, count)
+                        .progress(true, count)
                         .cancelable(false)
                         .build();
                 dialog.show();
