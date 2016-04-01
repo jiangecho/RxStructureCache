@@ -1,5 +1,6 @@
 package echo.com.fans.fragment;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,8 +19,11 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.echo.fans.Fans;
 import com.echo.fans.FansDao;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -130,8 +134,22 @@ public class GenerateFragment extends Fragment {
             return;
         }
 
-        generateNumberAsync();
+        new TedPermission(getActivity())
+                .setPermissionListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted() {
+                        generateNumberAsync();
+                    }
 
+                    @Override
+                    public void onPermissionDenied(ArrayList<String> arrayList) {
+                        Toast.makeText(getActivity(), "请授权读取通讯录", Toast.LENGTH_LONG).show();
+
+                    }
+                })
+                .setDeniedMessage("如果拒绝的话,将不能正常使用加粉神器\n\n当然,也可已手动授权 [设置] > [权限]")
+                .setPermissions(Manifest.permission.READ_CONTACTS)
+                .check();
     }
 
     private boolean generateNumberSync() {
@@ -212,7 +230,22 @@ public class GenerateFragment extends Fragment {
             Toast.makeText(getActivity(), "请先激活", Toast.LENGTH_LONG).show();
             return;
         }
-        deleteAsync();
+        new TedPermission(getActivity())
+                .setPermissionListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted() {
+                        deleteAsync();
+                    }
+
+                    @Override
+                    public void onPermissionDenied(ArrayList<String> arrayList) {
+                        Toast.makeText(getActivity(), "请授权读取通讯录", Toast.LENGTH_LONG).show();
+
+                    }
+                })
+                .setDeniedMessage("如果拒绝的话,将不能正常使用加粉神器\n\n当然,也可已手动授权 [设置] > [权限]")
+                .setPermissions(Manifest.permission.WRITE_CONTACTS)
+                .check();
     }
 
     private void deleteAsync() {
@@ -278,4 +311,16 @@ public class GenerateFragment extends Fragment {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    PermissionListener permissionlistener = new PermissionListener() {
+        @Override
+        public void onPermissionGranted() {
+            Toast.makeText(getActivity(), "Permission Granted", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+            Toast.makeText(getActivity(), "Permission Denied\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+        }
+    };
 }
