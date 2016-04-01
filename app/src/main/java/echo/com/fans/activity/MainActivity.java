@@ -1,7 +1,9 @@
 package echo.com.fans.activity;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,21 +11,31 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.widget.TextView;
+
+import com.echo.Token;
+import com.echo.data.DataManager;
 
 import org.zeroturnaround.zip.ZipUtil;
 
 import java.io.File;
 
+import echo.com.fans.App;
 import echo.com.fans.R;
 import echo.com.fans.fragment.ActivateFragment;
 import echo.com.fans.fragment.GenerateFragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_CITY = 100;
     private String currentCity = "北京";
     private TextView currentCityTextView;
+
+    private SharedPreferences sharedPreferences;
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -95,9 +107,39 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        unpacked = getSharedPreferences("config", MODE_PRIVATE).getBoolean("unpacked", false);
+        sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
+        String deviceId = sharedPreferences.getString("deviceId", "");
+        if (TextUtils.isEmpty(deviceId)) {
+            deviceId = Secure.getString(getContentResolver(),
+                    Secure.ANDROID_ID);
+            sharedPreferences.edit().putString("deviceId", deviceId).commit();
+        }
+
+        unpacked = sharedPreferences.getBoolean("unpacked", false);
         if (!unpacked) {
             unpackCityList();
+        }
+        checkActivateStatus();
+    }
+
+    private void checkActivateStatus() {
+        String key = sharedPreferences.getString("key", "");
+        if (TextUtils.isEmpty(key)) {
+            // do nothing
+        } else {
+            DataManager.getInstance().checkKey(key, new Callback<Token>() {
+                @Override
+                public void onResponse(Call<Token> call, Response<Token> response) {
+                    if (response.body().getCode() == 0) {
+                        App.getInstance().isActivated = true;
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<Token> call, Throwable t) {
+                }
+            });
         }
     }
 
@@ -123,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Boolean aBoolean) {
                 super.onPostExecute(aBoolean);
                 if (aBoolean) {
-                    getSharedPreferences("config", MODE_PRIVATE).edit().putBoolean("unpacked", true).commit();
+                    sharedPreferences.edit().putBoolean("unpacked", true).commit();
                 }
             }
         }.execute();

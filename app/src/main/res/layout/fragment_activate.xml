@@ -23,12 +23,14 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/keyEditText"
                 android:layout_width="0dp"
+                android:singleLine="true"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
 
             <Button
-                android:id="@+id/activate"
+                android:id="@+id/activateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="激活" />
@@ -48,11 +50,17 @@
             android:orientation="horizontal">
 
             <EditText
+                android:id="@+id/deviceIdEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:enabled="false"
+                android:focusable="false"
+                android:inputType="none" />
 
             <Button
+                android:id="@+id/copyButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="复制" />

@@ -109,6 +109,11 @@ public class GenerateFragment extends Fragment {
     @OnClick(R.id.generateButton)
     public void generate() {
 
+        if (!App.getInstance().isActivated) {
+            Toast.makeText(getActivity(), "请先激活", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         String tmp = numberEditText.getText().toString();
         try {
             count = Integer.parseInt(tmp);
@@ -200,6 +205,10 @@ public class GenerateFragment extends Fragment {
 
     @OnClick(R.id.clearButton)
     public void clear() {
+        if (!App.getInstance().isActivated) {
+            Toast.makeText(getActivity(), "请先激活", Toast.LENGTH_LONG).show();
+            return;
+        }
         deleteAsync();
     }
 

@@ -12,6 +12,7 @@ public class App extends Application {
     private DaoMaster daoMaster;
     private FansDao fansDao;
     private static App app;
+    public boolean isActivated = false;
 
     @Override
     public void onCreate() {
@@ -30,5 +31,6 @@ public class App extends Application {
     public FansDao getFansDao() {
         return fansDao;
     }
+
 
 }
