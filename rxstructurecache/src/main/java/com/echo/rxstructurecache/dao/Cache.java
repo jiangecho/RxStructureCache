@@ -11,6 +11,7 @@ public class Cache {
     /** Not-null value. */
     private String content;
     private Integer version;
+    private String type;
 
     public Cache() {
     }
@@ -19,11 +20,12 @@ public class Cache {
         this.id = id;
     }
 
-    public Cache(Long id, Long cacheId, String content, Integer version) {
+    public Cache(Long id, Long cacheId, String content, Integer version, String type) {
         this.id = id;
         this.cacheId = cacheId;
         this.content = content;
         this.version = version;
+        this.type = type;
     }
 
     public Long getId() {
@@ -58,6 +60,14 @@ public class Cache {
 
     public void setVersion(Integer version) {
         this.version = version;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }
