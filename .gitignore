@@ -5,5 +5,5 @@
 /.idea/libraries
 /.idea/vcs.xml
 .DS_Store
-/build
+**/build
 /captures

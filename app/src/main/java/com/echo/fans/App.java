@@ -9,7 +9,6 @@ import com.echo.fans.dao.FansDao;
  * Created by jiangecho on 16/3/31.
  */
 public class App extends Application {
-    private DaoMaster daoMaster;
     private FansDao fansDao;
     private static App app;
     public boolean isActivated = false;
@@ -20,7 +19,7 @@ public class App extends Application {
         app = this;
 
         DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(this, "fans-db", null);
-        daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         fansDao = daoMaster.newSession().getFansDao();
     }
 

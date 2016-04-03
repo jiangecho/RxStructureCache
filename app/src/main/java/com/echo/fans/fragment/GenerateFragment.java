@@ -17,8 +17,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.echo.fans.App;
+import com.echo.fans.activity.CityListActivity;
+import com.echo.fans.activity.MainActivity;
 import com.echo.fans.dao.Fans;
 import com.echo.fans.dao.FansDao;
+import com.echo.fans.utils.AES256Utils;
+import com.echo.fans.utils.ContactUtil;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
@@ -30,12 +35,7 @@ import java.util.Random;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.echo.fans.App;
 import echo.com.fans.R;
-import com.echo.fans.activity.CityListActivity;
-import com.echo.fans.activity.MainActivity;
-import com.echo.fans.utils.AES256Utils;
-import com.echo.fans.utils.ContactUtil;
 
 /**
  * A simple {@link Fragment} subclass.
