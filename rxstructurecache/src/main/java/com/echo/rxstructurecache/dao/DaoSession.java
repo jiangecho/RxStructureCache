@@ -2,9 +2,6 @@ package com.echo.rxstructurecache.dao;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.echo.fans.dao.Fans;
-import com.echo.fans.dao.FansDao;
-
 import java.util.Map;
 
 import de.greenrobot.dao.AbstractDao;
@@ -16,41 +13,30 @@ import de.greenrobot.dao.internal.DaoConfig;
 
 /**
  * {@inheritDoc}
- * 
+ *
  * @see de.greenrobot.dao.AbstractDaoSession
  */
 public class DaoSession extends AbstractDaoSession {
 
-    private final DaoConfig fansDaoConfig;
     private final DaoConfig cacheDaoConfig;
 
-    private final FansDao fansDao;
     private final CacheDao cacheDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
         super(db);
 
-        fansDaoConfig = daoConfigMap.get(FansDao.class).clone();
-        fansDaoConfig.initIdentityScope(type);
 
         cacheDaoConfig = daoConfigMap.get(CacheDao.class).clone();
         cacheDaoConfig.initIdentityScope(type);
 
-        fansDao = new FansDao(fansDaoConfig, this);
         cacheDao = new CacheDao(cacheDaoConfig, this);
 
-        registerDao(Fans.class, fansDao);
         registerDao(Cache.class, cacheDao);
     }
-    
-    public void clear() {
-        fansDaoConfig.getIdentityScope().clear();
-        cacheDaoConfig.getIdentityScope().clear();
-    }
 
-    public FansDao getFansDao() {
-        return fansDao;
+    public void clear() {
+        cacheDaoConfig.getIdentityScope().clear();
     }
 
     public CacheDao getCacheDao() {
