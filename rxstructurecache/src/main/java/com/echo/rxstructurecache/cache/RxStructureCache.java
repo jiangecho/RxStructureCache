@@ -32,7 +32,7 @@ public class RxStructureCache<T extends CacheAble> {
 
     }
 
-    public Observable<List<T>> getDataFromCacheThenLoader(Class<T> clazz, Observable<List<T>> loader) {
+    public Observable<List<T>> getFromCacheThenLoader(Class<T> clazz, Observable<List<T>> loader) {
         Query query = cacheDao.queryBuilder()
                 .where(CacheDao.Properties.Type.eq(clazz.getName()))
                 .orderDesc(CacheDao.Properties.Id)
@@ -60,7 +60,7 @@ public class RxStructureCache<T extends CacheAble> {
                 }));
     }
 
-    public Observable<List<T>> getDataFromLoaderAndCache(Observable<List<T>> loader) {
+    public Observable<List<T>> getFromLoaderAndCache(Observable<List<T>> loader) {
         return loader.filter(new Func1<List<T>, Boolean>() {
             @Override
             public Boolean call(List<T> ts) {

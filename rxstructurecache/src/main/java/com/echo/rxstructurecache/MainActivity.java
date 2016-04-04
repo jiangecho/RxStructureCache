@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,45 +22,63 @@ public class MainActivity extends AppCompatActivity {
         RxStructureCache rxStructureCache = new RxStructureCache();
         rxStructureCache.init(this);
 
-        //rxStructureCache.getDataFromCacheThenLoader(User.class, getUserR())
-        rxStructureCache.getDataFromLoaderAndCache(getUserR())
-                .subscribe(new Subscriber<List<User>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e("jyj", "onC");
+        //rxStructureCache.getFromCacheThenLoader(User.class, getUserR())
+//        rxStructureCache.getFromLoaderAndCache(getUserR())
+//                .subscribe(new Subscriber<List<User>>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        Log.e("jyj", "onC");
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.e("jyj", "onE " + e.getMessage());
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<User> users) {
+//                        Log.e("jyj", "onN " + users.size());
+//
+//                    }
+//                });
+//
+//        rxStructureCache.getFromCacheThenLoader(Tweet.class, getTweetsR())
+//                .subscribe(new Subscriber<List<Tweet>>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        Log.e("jyj", "t onC");
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.e("jyj", "t onE");
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<Tweet> tweets) {
+//                        Log.e("jyj", "t onN " + tweets.size());
+//                    }
+//                });
 
-                    }
+        User user = new User();
+        user.setId(20);
+        user.setName("updated: jiang");
+        user.setAge("29");
+        user.setSex("male");
+        rxStructureCache.update(user);
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("jyj", "onE " + e.getMessage());
 
-                    }
+        Tweet tweet = new Tweet();
+        tweet.setId(7);
+        tweet.setContent("content ");
+        tweet.setUserId(100);
+        rxStructureCache.delete(tweet);
 
-                    @Override
-                    public void onNext(List<User> users) {
-                        Log.e("jyj", "onN " + users.size());
+        tweet = (Tweet) rxStructureCache.get(Tweet.class, 2);
+        Log.e("jyj", tweet.getContent());
 
-                    }
-                });
-
-        rxStructureCache.getDataFromCacheThenLoader(Tweet.class, getTweetsR())
-                .subscribe(new Subscriber<List<Tweet>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e("jyj", "t onC");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("jyj", "t onE");
-                    }
-
-                    @Override
-                    public void onNext(List<Tweet> tweets) {
-                        Log.e("jyj", "t onN " + tweets.size());
-                    }
-                });
     }
 
 
