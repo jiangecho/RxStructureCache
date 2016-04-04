@@ -5,13 +5,13 @@ import android.content.Context;
 import com.echo.rxstructurecache.dao.Cache;
 import com.echo.rxstructurecache.dao.CacheDao;
 import com.echo.rxstructurecache.dao.DaoMaster;
-import com.echo.rxstructurecache.model.User;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.dao.query.CountQuery;
+import de.greenrobot.dao.query.DeleteQuery;
 import de.greenrobot.dao.query.Query;
 import rx.Observable;
 import rx.functions.Action1;
@@ -80,16 +80,11 @@ public class RxStructureCache<T extends CacheAble> {
             return;
         }
 
-        Gson gson = new Gson();
         String type = datas.get(0).getClass().getName();
 
         List<Cache> caches = new ArrayList<Cache>();
         for (T t : datas) {
-            Cache cache = new Cache();
-            cache.setCacheId(t.getCacheId());
-            cache.setVersion(t.getVersion());
-            cache.setType(type);
-            cache.setContent(gson.toJson(t));
+            Cache cache = toCache(t);
             caches.add(cache);
         }
         cacheDao.insertOrReplaceInTx(caches);
@@ -111,16 +106,48 @@ public class RxStructureCache<T extends CacheAble> {
 
     }
 
-    Observable<User> getUser(long id) {
-        return null;
+    public T get(Class<T> clazz, long cacheId) {
+        Query query = cacheDao.queryBuilder()
+                .where(CacheDao.Properties.CacheId.eq(cacheId))
+                .where(CacheDao.Properties.Type.eq(clazz.getName()))
+                .build();
+        Cache cache = (Cache) query.unique();
+
+        return fromCache(clazz, cache);
     }
 
-    void updateUser(User user) {
-
+    public Observable<T> getOb(Class<T> clazz, long cacheId) {
+        return Observable.just(get(clazz, cacheId));
     }
 
-    void deleteUser(User user) {
+    public void update(T record) {
+        Cache cache = toCache(record);
+        cacheDao.insertOrReplaceInTx(cache);
+    }
 
+    public void delete(T record) {
+        DeleteQuery query = cacheDao.queryBuilder()
+                .where(CacheDao.Properties.CacheId.eq(record.getCacheId()))
+                .where(CacheDao.Properties.Type.eq(record.getClass().getName()))
+                .buildDelete();
+        query.executeDeleteWithoutDetachingEntities();
+    }
+
+    private Cache toCache(T record) {
+        Gson gson = new Gson();
+        Cache cache = new Cache();
+        cache.setCacheId(record.getCacheId());
+        cache.setVersion(record.getVersion());
+        cache.setContent(gson.toJson(record));
+        cache.setType(record.getClass().getName());
+        return cache;
+    }
+
+    private T fromCache(Class<T> clazz, Cache cache) {
+        if (cache == null) {
+            return null;
+        }
+        return new Gson().fromJson(cache.getContent(), clazz);
     }
 
 }
