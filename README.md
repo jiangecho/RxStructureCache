@@ -7,6 +7,7 @@ A RxCache for structure data.
 
 ##How
 1. make your structure data model implement ```CacheAble``` interface.
+
     ```
     public class Tweet implements CacheAble {
         private long id;
@@ -14,11 +15,14 @@ A RxCache for structure data.
         private long userId;
     }
     ```
+
 2. Implement your ```loader```
 3. Init ```RxStructureCache```
+
     ```
         RxStructureCache rxStructureCache = RxStructureCache.getInstance(this, 20);
     ```
+
 4.  When you need firstly get cached data, and then remote data, just call```getFromCacheThenLoader```
 5. Please refer to ```app``` module
 
