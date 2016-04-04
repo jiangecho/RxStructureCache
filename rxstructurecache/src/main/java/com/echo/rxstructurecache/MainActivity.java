@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         RxStructureCache rxStructureCache = new RxStructureCache();
         rxStructureCache.init(this);
 
-        rxStructureCache.getDataCacheThenLoader(User.class, getUserR())
+        rxStructureCache.getDataFromCacheThenLoader(User.class, getUserR())
                 .subscribe(new Subscriber<List<User>>() {
                     @Override
                     public void onCompleted() {
