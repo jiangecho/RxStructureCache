@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.echo.rxstructurecache.cache.RxStructureCache;
+import com.echo.rxstructurecache.model.Tweet;
 import com.echo.rxstructurecache.model.User;
 
 import java.util.ArrayList;
@@ -42,8 +43,25 @@ public class MainActivity extends AppCompatActivity {
                         Log.e("jyj", "onN " + users.size());
 
                     }
-                })
-        ;
+                });
+
+        rxStructureCache.getDataFromCacheThenLoader(Tweet.class, getTweetsR())
+                .subscribe(new Subscriber<List<Tweet>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("jyj", "t onC");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("jyj", "t onE");
+                    }
+
+                    @Override
+                    public void onNext(List<Tweet> tweets) {
+                        Log.e("jyj", "t onN " + tweets.size());
+                    }
+                });
     }
 
 
@@ -61,6 +79,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return Observable.just(users);
+    }
+
+    private Observable<List<Tweet>> getTweetsR() {
+        List<Tweet> tweets = new ArrayList<>();
+        Tweet tweet;
+        for (int i = 10; i < 20; i++) {
+            tweet = new Tweet();
+            tweet.setId(i);
+            tweet.setContent("content " + i);
+            tweet.setUserId(i);
+            tweets.add(tweet);
+        }
+        return Observable.just(tweets);
     }
 
 }

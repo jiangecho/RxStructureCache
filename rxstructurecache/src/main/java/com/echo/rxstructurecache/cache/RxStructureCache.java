@@ -58,11 +58,6 @@ public class RxStructureCache<T extends CacheAble> {
                         cache(ts);
                     }
                 }));
-
-        // reference
-//        Class classData = Class.forName(tempDiskRecord.getDataClassName());
-//        Type type = $Gson$Types.newParameterizedTypeWithOwner(null, DiskRecord.class, classData);
-//        diskRecord = new Gson().fromJson(reader, type);
     }
 
     public Observable<List<T>> getDataFromLoaderAndCache(Observable<List<T>> loader) {
