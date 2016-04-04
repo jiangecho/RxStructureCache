@@ -1,2 +1,1 @@
-include ':app', ':rxstructurecache'
-include ':MyDaoGenerator'
+include ':app', ':cache'
