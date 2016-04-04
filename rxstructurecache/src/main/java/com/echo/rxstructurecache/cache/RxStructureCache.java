@@ -15,6 +15,7 @@ import de.greenrobot.dao.query.CountQuery;
 import de.greenrobot.dao.query.DeleteQuery;
 import de.greenrobot.dao.query.Query;
 import rx.Observable;
+import rx.functions.Action1;
 import rx.functions.Func1;
 
 /**
@@ -37,7 +38,7 @@ public class RxStructureCache<T extends CacheAble> {
                 .where(CacheDao.Properties.Type.eq(clazz.getName()))
                 .orderDesc(CacheDao.Properties.Id)
                 .build();
-        List<Cache> caches = query.list();
+        final List<Cache> caches = query.list();
         List<T> datas = new ArrayList<>();
         Gson gson = new Gson();
         if (caches != null && caches.size() > 0) {
@@ -52,7 +53,12 @@ public class RxStructureCache<T extends CacheAble> {
                     public Boolean call(List<T> ts) {
                         return ts.size() > 0;
                     }
-                }).concatWith(loader);
+                }).concatWith(loader.doOnNext(new Action1<List<T>>() {
+                    @Override
+                    public void call(List<T> ts) {
+                        cache(ts);
+                    }
+                }));
 
         // reference
 //        Class classData = Class.forName(tempDiskRecord.getDataClassName());
@@ -69,41 +75,46 @@ public class RxStructureCache<T extends CacheAble> {
         }).map(new Func1<List<T>, List<T>>() {
             @Override
             public List<T> call(List<T> ts) {
-                // TODO 1, check exist or not
-                // TODO 2, exceed the cache capacity, 20 records per type
-
-                Gson gson = new Gson();
-                String type = ts.get(0).getClass().getName();
-
-                List<Cache> caches = new ArrayList<Cache>();
-                for (T t : ts) {
-                    Cache cache = new Cache();
-                    cache.setCacheId(t.getCacheId());
-                    cache.setVersion(t.getVersion());
-                    cache.setType(type);
-                    cache.setContent(gson.toJson(t));
-                    caches.add(cache);
-                }
-                cacheDao.insertOrReplaceInTx(caches);
-
-                CountQuery countQuery;
-                countQuery = cacheDao.queryBuilder()
-                        .where(CacheDao.Properties.Type.eq(type))
-                        .buildCount();
-
-                long count = countQuery.count();
-                if (count > cacheCapacityPerType) {
-                    DeleteQuery deleteQuery = cacheDao.queryBuilder()
-                            .where(CacheDao.Properties.Type.eq(type))
-                            .orderAsc(CacheDao.Properties.Id)
-                            .limit((int) (count - cacheCapacityPerType))
-                            .buildDelete();
-                    deleteQuery.executeDeleteWithoutDetachingEntities();
-                }
-
+                cache(ts);
                 return ts;
             }
         });
+    }
+
+    private void cache(List<T> datas) {
+        if (datas == null || datas.size() == 0) {
+            return;
+        }
+
+        Gson gson = new Gson();
+        String type = datas.get(0).getClass().getName();
+
+        List<Cache> caches = new ArrayList<Cache>();
+        for (T t : datas) {
+            Cache cache = new Cache();
+            cache.setCacheId(t.getCacheId());
+            cache.setVersion(t.getVersion());
+            cache.setType(type);
+            cache.setContent(gson.toJson(t));
+            caches.add(cache);
+        }
+        cacheDao.insertOrReplaceInTx(caches);
+
+        CountQuery countQuery;
+        countQuery = cacheDao.queryBuilder()
+                .where(CacheDao.Properties.Type.eq(type))
+                .buildCount();
+
+        long count = countQuery.count();
+        if (count > cacheCapacityPerType) {
+            DeleteQuery deleteQuery = cacheDao.queryBuilder()
+                    .where(CacheDao.Properties.Type.eq(type))
+                    .orderAsc(CacheDao.Properties.Id)
+                    .limit((int) (count - cacheCapacityPerType))
+                    .buildDelete();
+            deleteQuery.executeDeleteWithoutDetachingEntities();
+        }
+
     }
 
     Observable<User> getUser(long id) {
