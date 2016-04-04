@@ -10,7 +10,7 @@ A RxCache for structure data.
 2. Support non-structure data?
 
 ##Libraries
-[GreenDao](https://github.com/greenrobot/greenDAO)
+[GreenDAO](https://github.com/greenrobot/greenDAO)
 
 ##Thanks
 [RxCache](https://github.com/VictorAlbertos/RxCache), I like it, but I think it's lack of some features I need.
