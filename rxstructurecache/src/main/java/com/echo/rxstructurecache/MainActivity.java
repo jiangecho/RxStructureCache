@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
         RxStructureCache rxStructureCache = new RxStructureCache();
         rxStructureCache.init(this);
 
-        rxStructureCache.getDataFromCacheThenLoader(User.class, getUserR())
+        //rxStructureCache.getDataFromCacheThenLoader(User.class, getUserR())
+        rxStructureCache.getDataFromLoaderAndCache(getUserR())
                 .subscribe(new Subscriber<List<User>>() {
                     @Override
                     public void onCompleted() {
@@ -38,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(List<User> users) {
-                        Log.e("jyj", "onN " + users.get(0).getId());
+                        Log.e("jyj", "onN " + users.size());
 
                     }
                 })
@@ -48,19 +49,16 @@ public class MainActivity extends AppCompatActivity {
 
     private Observable<List<User>> getUserR() {
         List<User> users = new ArrayList<>();
-        User user = new User();
-        user.setId(0);
-        user.setName("jiang");
-        user.setAge("29");
-        user.setSex("male");
-        users.add(user);
+        User user;
+        for (int i = 10; i < 27; i++) {
+            user = new User();
+            user.setId(i);
+            user.setName("jiang" + i);
+            user.setAge("29");
+            user.setSex("male");
+            users.add(user);
 
-        user = new User();
-        user.setId(1);
-        user.setName("ying");
-        user.setAge("29");
-        user.setSex("male");
-        users.add(user);
+        }
 
         return Observable.just(users);
     }

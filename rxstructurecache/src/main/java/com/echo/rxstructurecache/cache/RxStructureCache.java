@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.greenrobot.dao.query.CountQuery;
-import de.greenrobot.dao.query.DeleteQuery;
 import de.greenrobot.dao.query.Query;
 import rx.Observable;
 import rx.functions.Action1;
@@ -107,12 +106,12 @@ public class RxStructureCache<T extends CacheAble> {
 
         long count = countQuery.count();
         if (count > cacheCapacityPerType) {
-            DeleteQuery deleteQuery = cacheDao.queryBuilder()
-                    .where(CacheDao.Properties.Type.eq(type))
-                    .orderAsc(CacheDao.Properties.Id)
-                    .limit((int) (count - cacheCapacityPerType))
-                    .buildDelete();
-            deleteQuery.executeDeleteWithoutDetachingEntities();
+            cacheDao.getDatabase().beginTransaction();
+            String deleteSql = "DELETE FROM " + cacheDao.getTablename() + " WHERE _id IN (SELECT _id FROM " + cacheDao.getTablename()
+                    + " ORDER BY _id ASC LIMIT " + (count - cacheCapacityPerType) + ")";
+            cacheDao.getDatabase().execSQL(deleteSql);
+            cacheDao.getDatabase().setTransactionSuccessful();
+            cacheDao.getDatabase().endTransaction();
         }
 
     }
