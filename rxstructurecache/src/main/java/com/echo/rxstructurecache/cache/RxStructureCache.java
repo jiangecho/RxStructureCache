@@ -27,7 +27,21 @@ public class RxStructureCache<T extends CacheAble> {
     private CacheDao cacheDao;
     private int cacheCapacityPerType = 20;
 
-    public void init(Context context) {
+    private static RxStructureCache instance;
+
+    public static synchronized RxStructureCache getInstance(Context context, int cacheCapacityPerType) {
+        if (instance == null) {
+            instance = new RxStructureCache(context, cacheCapacityPerType);
+        }
+        return instance;
+    }
+
+    private RxStructureCache(Context context, int cacheCapacityPerType) {
+        this.cacheCapacityPerType = cacheCapacityPerType;
+        initGreenDao(context);
+    }
+
+    private void initGreenDao(Context context) {
         DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(context, "cache-db", null);
         DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         cacheDao = daoMaster.newSession().getCacheDao();
